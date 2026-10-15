@@ -13,6 +13,12 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Clear Disk Space
+      run: |
+        Remove-Item -Recurse -Force "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\Microsoft.VisualStudio.Default.props" -ErrorAction SilentlyContinue
+        Get-ChildItem "C:\Program Files\dotnet\sdk" | Where-Object {$_.Name -ne "8.0.302"} | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+        [System.GC]::Collect()
+
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
